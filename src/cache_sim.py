@@ -117,8 +117,10 @@ def main():
     k, requests = parse_input(data)
     fifo = fifo_misses(k, requests)
     lru = lru_misses(k, requests)
+    optff = optff_misses(k, requests)
     print(f"FIFO  : {fifo}")
     print(f"LRU   : {lru}")
+    print(f"OPTFF : {optff}")
 
 
 if __name__ == "__main__":
