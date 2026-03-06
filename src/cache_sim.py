@@ -23,6 +23,24 @@ def fifo_misses(k, requests):
     return misses
 
 
+def lru_misses(k, requests):
+    cache = OrderedDict()
+    misses = 0
+
+    for x in requests:
+        if x in cache:
+            cache.move_to_end(x)
+            continue
+
+        misses += 1
+        if len(cache) == k:
+            cache.popitem(last=False)
+
+        cache[x] = None
+
+    return misses
+
+
 def parse_input(data):
     nums = list(map(int, data.split()))
     if len(nums) < 2:
@@ -74,7 +92,9 @@ def main():
 
     k, requests = parse_input(data)
     fifo = fifo_misses(k, requests)
+    lru = lru_misses(k, requests)
     print(f"FIFO  : {fifo}")
+    print(f"LRU   : {lru}")
 
 
 if __name__ == "__main__":
