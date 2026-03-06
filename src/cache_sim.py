@@ -3,6 +3,26 @@ from pathlib import Path
 import sys
 
 
+def fifo_misses(k, requests):
+    cache = set()
+    order = deque()
+    misses = 0
+
+    for x in requests:
+        if x in cache:
+            continue
+
+        misses += 1
+        if len(cache) == k:
+            victim = order.popleft()
+            cache.remove(victim)
+
+        cache.add(x)
+        order.append(x)
+
+    return misses
+
+
 def parse_input(data):
     nums = list(map(int, data.split()))
     if len(nums) < 2:
@@ -52,7 +72,9 @@ def main():
     if not data:
         return
 
-    parse_input(data)
+    k, requests = parse_input(data)
+    fifo = fifo_misses(k, requests)
+    print(f"FIFO  : {fifo}")
 
 
 if __name__ == "__main__":
