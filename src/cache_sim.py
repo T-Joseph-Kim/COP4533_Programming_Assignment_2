@@ -1,4 +1,4 @@
-from collections import OrderedDict, deque
+from collections import OrderedDict, defaultdict, deque
 from pathlib import Path
 import sys
 
@@ -37,6 +37,30 @@ def lru_misses(k, requests):
             cache.popitem(last=False)
 
         cache[x] = None
+
+    return misses
+
+
+def optff_misses(k, requests):
+    future = defaultdict(deque)
+    for i, x in enumerate(requests):
+        future[x].append(i)
+
+    cache = set()
+    misses = 0
+
+    for i, x in enumerate(requests):
+        future[x].popleft()
+
+        if x in cache:
+            continue
+
+        misses += 1
+        if len(cache) == k:
+            victim = max(cache, key=lambda item: future[item][0] if future[item] else float('inf'))
+            cache.remove(victim)
+
+        cache.add(x)
 
     return misses
 
