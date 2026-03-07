@@ -1,5 +1,7 @@
 # COP4533 Programming Assignment 2
 
+[Written Portion (PDF)](COP4533%20Programming%20Assignment%202%20(Written%20Portion).pdf)
+
 ## Student Information
 - Student Name: `Taebok Joseph Kim`
 - UFID: `13744367`
